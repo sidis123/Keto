@@ -1,0 +1,36 @@
+.App-header {
+  text-align: center;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 300px;
+}
+
+.input {
+  padding: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  max-width: 300px;
+}
+
+.input::placeholder {
+  color: #000 !important;
+}
+
+.select {
+  padding: 10px;
+  margin-bottom: 10px;
+  width: 108%;
+  max-width: 400px;
+}
+
+.button {
+  padding: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  max-width: 100px;
+  align-items: center;
+}

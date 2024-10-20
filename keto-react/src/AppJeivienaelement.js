@@ -92,39 +92,22 @@ function App() {
     fetch("books")
       .then((response) => response.text())
       .then((xmlString) => {
-        // Parse the XML string
+        //parse the xml string
         console.log(xmlString);
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(xmlString, "text/xml");
 
         // Extract desired data from the XML document
-        const bookNodes = xmlDoc.getElementsByTagName("book");
+        const titles = xmlDoc.getElementsByTagName("title");
+        const titlesArray = Array.from(titles).map(
+          (title) => title.textContent
+        );
 
-        // Convert the HTMLCollection to an array and map through each book node
-        const booksArray = Array.from(bookNodes).map((bookNode) => {
-          const title = bookNode.getElementsByTagName("title")[0]?.textContent;
-
-          // Handle multiple authors by collecting them into an array
-          const authorNodes = bookNode.getElementsByTagName("author");
-          const authors = Array.from(authorNodes).map(
-            (author) => author.textContent
-          );
-
-          const price = bookNode.getElementsByTagName("price")[0]?.textContent;
-
-          // Return an object with the extracted fields, including an array of authors
-          return {
-            title,
-            authors, // This will be an array of authors
-            price,
-          };
-        });
-
-        setData(booksArray);
+        setData(titlesArray);
         setLoading(false);
       })
       .catch((error) => {
-        console.log("Error fetching XML:", error);
+        console.log("Error fetching xml:", error);
         setLoading(false);
       });
   }, []);
@@ -176,18 +159,8 @@ function App() {
           <div>
             {data && data.length > 0 ? (
               <ul>
-                {data.map((book, index) => (
-                  <div style={styles.knyga}>
-                    <li key={index}>
-                      <strong>Title:</strong> {book.title} <br />
-                      <strong>Authors:</strong>{" "}
-                      {book.authors && book.authors.length > 0
-                        ? book.authors.join(", ")
-                        : "No authors available"}{" "}
-                      <br /> {/* Check if authors exist */}
-                      <strong>Price:</strong> {book.price}
-                    </li>
-                  </div>
+                {data.map((title, index) => (
+                  <li key={index}>{title}</li>
                 ))}
               </ul>
             ) : (
@@ -200,12 +173,5 @@ function App() {
     </div>
   );
 }
-
-const styles = {
-  knyga: {
-    border: "solid white 4px",
-    padding: "4px",
-  },
-};
 
 export default App;
